@@ -1,0 +1,70 @@
+﻿using DataLayer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusinessLayer
+{
+    public class TONGIAO
+    {
+        private QLNHANSUEntities db = new QLNHANSUEntities();
+
+        public tb_TONGIAO getItem(int id)
+        {
+            return db.tb_TONGIAO.FirstOrDefault(item => item.ID == id);
+        }
+        public List<tb_TONGIAO> getList()
+        {
+            return db.tb_TONGIAO.ToList();
+        }
+        public tb_TONGIAO Add(tb_TONGIAO tg)
+        {
+            try
+            {
+                db.tb_TONGIAO.Add(tg);
+                db.SaveChanges();
+                return tg;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error: " + ex.Message);
+            }
+        }
+        public tb_TONGIAO Update(tb_TONGIAO tg)
+        {
+            try
+            {
+                tb_TONGIAO _tg = db.tb_TONGIAO.FirstOrDefault(item => item.ID == tg.ID);
+                if (_tg != null)
+                {
+                    _tg.TENTG = tg.TENTG;
+                    db.SaveChanges();
+                    return tg;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error: " + ex.Message);
+            }
+        }
+        public void Delete(int id)
+        {
+            try
+            {
+                tb_TONGIAO _tg = db.tb_TONGIAO.FirstOrDefault(item => item.ID == id);
+                if (_tg != null)
+                {
+                    db.tb_TONGIAO.Remove(_tg);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error: " + ex.Message);
+            }
+        }
+    }
+}
